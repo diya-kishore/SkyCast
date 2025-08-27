@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SkyCast</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2&family=Poppins:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="weather-app">
+    <h1>SkyCast</h1>
+
+    <!-- Theme toggle button with SVG sun icon -->
+    <button id="themeToggle" aria-label="Toggle light and dark theme" title="Toggle light and dark theme">
+      <svg id="themeIcon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Sun icon -->
+        <circle cx="12" cy="12" r="5" fill="#FFCC00"/>
+        <g stroke="#FFCC00" stroke-width="2">
+          <line x1="12" y1="1" x2="12" y2="4"/>
+          <line x1="12" y1="20" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/>
+          <line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="4" y2="12"/>
+          <line x1="20" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="6.34" y2="17.66"/>
+          <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
+        </g>
+      </svg>
+    </button>
+
+    <!-- Mascot -->
+    <div id="mascot" class="mascot-light" aria-label="Weather App Mascot"></div>
+
+    <!-- City input and Search -->
+    <input type="text" id="cityInput" placeholder="Enter city name" aria-label="City name input" />
+    <button id="searchBtn" aria-label="Search city weather">Search</button>
+
+    <!-- Weather result display -->
+    <div class="weather-result" id="weatherResult" role="region" aria-live="polite"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
