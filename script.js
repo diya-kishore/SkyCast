@@ -27,6 +27,7 @@ async function getWeather() {
   if (!city) {
     weatherDiv.innerHTML = '<p class="error">Please enter a city name!</p>';
     resetBackground();
+    updateSnoopyAnimation('');
     return;
   }
 
@@ -34,22 +35,25 @@ async function getWeather() {
 
   try {
     const response = await fetch(url);
-
     if (!response.ok) {
       resetBackground();
+      updateSnoopyAnimation('');
       if (response.status === 401) throw new Error("Invalid API key. Check your key.");
       else if (response.status === 404) throw new Error("City not found. Try another name.");
       else throw new Error("Unable to fetch weather data.");
     }
 
     const data = await response.json();
+    const temp = Math.round(data.main.temp);
 
-    updateBackground(data.weather[0].main);
+    // Update background and animation by temperature
+    updateBackgroundByTemperature(temp);
+    updateSnoopyAnimationByTemperature(temp);
 
     const suggestionText = activitySuggestions[data.weather[0].main.toLowerCase()] || activitySuggestions.default;
 
     weatherDiv.innerHTML = `
-      <div class="temp">${Math.round(data.main.temp)}°C</div>
+      <div class="temp">${temp}°C</div>
       <div class="desc">${data.weather[0].description}</div>
       <div>Humidity: ${data.main.humidity}%</div>
       <div>Wind: ${data.wind.speed} m/s</div>
@@ -59,30 +63,41 @@ async function getWeather() {
   } catch (error) {
     weatherDiv.innerHTML = `<p class="error">${error.message}</p>`;
     resetBackground();
+    updateSnoopyAnimation(''); 
   }
 }
 
-function updateBackground(weatherMain) {
+// New function for temperature-based background CSS class
+function updateBackgroundByTemperature(temp) {
   const body = document.body;
-  body.classList.remove("sunny", "rainy", "winter");
+  body.classList.remove("cold", "cool", "warm", "hot");
 
-  switch (weatherMain.toLowerCase()) {
-    case "clear":
-      body.classList.add("sunny");
-      break;
-    case "rain":
-    case "drizzle":
-    case "thunderstorm":
-      body.classList.add("rainy");
-      break;
-    case "snow":
-      body.classList.add("winter");
-      break;
-    default:
-      // no special background
-      break;
+  if (temp <= 0) {
+    body.classList.add("cold");   // very cold
+  } else if (temp <= 15) {
+    body.classList.add("cool");   // cool
+  } else if (temp <= 25) {
+    body.classList.add("warm");   // warm
+  } else {
+    body.classList.add("hot");    // hot
   }
 }
+
+// Update Snoopy animation based on temperature
+function updateSnoopyAnimationByTemperature(temp) {
+  const snoopyDiv = document.getElementById("snoopyAnimation");
+
+  if (temp <= 0) {
+    snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy-winter.gif')";
+  } else if (temp <= 15) {
+    snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy-clear.gif')";  // No animation for cool
+  } else if (temp >= 25) {
+    snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy summer.gif')";
+  } else {
+    snoopyDiv.style.backgroundImage = "none";
+  }
+}
+
 
 function resetBackground() {
   const body = document.body;
@@ -151,5 +166,27 @@ function setTheme(theme) {
         <line x1="17.66" y1="6.34" x2="19.78" y2="4.22"/>
       </g>
     `;
+  }
+}
+
+// Update Snoopy animation based on weather condition
+function updateSnoopyAnimation(weatherMain) {
+  const snoopyDiv = document.getElementById("snoopyAnimation");
+
+  switch (weatherMain.toLowerCase()) {
+    case "clear":
+      snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy summer.gif')";
+      break;
+    case "rain":
+    case "drizzle":
+    case "thunderstorm":
+    case  "clouds":
+      snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy-raining.gif')";
+      break;
+    case "snow":
+      snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy-winter.gif')";
+      break;
+    default:
+      snoopyDiv.style.backgroundImage = "none";
   }
 }
