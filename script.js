@@ -88,7 +88,7 @@ function updateSnoopyAnimationByTemperature(temp) {
   const snoopyDiv = document.getElementById("snoopyAnimation");
 
   if (temp <= 0) {
-    snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy-winter.gif')";
+    snoopyDiv.style.backgroundImage = "url('SkyCast/assets/gifs/snoopy-winter.gif')";
   } else if (temp <= 15) {
     snoopyDiv.style.backgroundImage = "url('./assets/gifs/snoopy-clear.gif')";  // No animation for cool
   } else if (temp >= 25) {
@@ -190,3 +190,4 @@ function updateSnoopyAnimation(weatherMain) {
       snoopyDiv.style.backgroundImage = "none";
   }
 }
+
