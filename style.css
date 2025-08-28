@@ -342,3 +342,28 @@ body.winter::before {
   0% { background-position: 0 0; }
   100% { background-position: 0 1000px; }
 }
+.snoopy-animation {
+  position: fixed;
+  bottom: 20px;
+  right: 20px; /* Change to left: 20px; if you want it left aligned */
+  width: 100px;
+  height: 100px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+  transition: background-image 0.5s ease;
+  z-index: 1000;
+}
+#snoopyAnimation {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;  /* full viewport width */
+  height: 100vh; /* full viewport height */
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover; /* scale to fill */
+  z-index: -1; /* behind other UI elements */
+  pointer-events: none; /* ignore mouse events */
+  transition: background-image 0.5s ease;
+}
